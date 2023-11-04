@@ -3,15 +3,43 @@ Build a function mergeSort that takes in an array and returns a sorted array, us
 Tips:
 Think about what the base case is and what behavior is happening again and again and can actually be delegated to someone else (e.g. that same function!).
 It may be helpful to check out the background videos again if you don’t quite understand what should be going on.
+
+Thought process:
+
+How to return the merged array
 */
 
 function merge(leftArr, rightArr) {
-  console.log("MERGE", leftArr, rightArr);
+  const newArray = [];
+
+  let leftIndex = 0;
+  let rightIndex = 0;
+  let newIndex = 0;
+
+  while (leftIndex < leftArr.length && rightIndex < rightArr.length) {
+    // console.log(leftArr[leftIndex], "<>", rightArr[rightIndex]);
+    if (leftArr[leftIndex] < rightArr[rightIndex]) {
+      newArray[newIndex++] = leftArr[leftIndex++];
+    } else {
+      newArray[newIndex++] = rightArr[rightIndex++];
+    }
+  }
+
+  for (; leftIndex < leftArr.length; leftIndex++) {
+    newArray[newIndex++] = leftArr[leftIndex];
+  }
+
+  for (; rightIndex < rightArr.length; rightIndex++) {
+    newArray[newIndex++] = rightArr[rightIndex];
+  }
+  console.log("NEW ARRAY", newArray);
+  return newArray;
 }
 
 function mergeSort(arr) {
   if (arr.length === 1) {
-    return;
+    console.log("END", arr);
+    return arr;
   }
 
   const mid = Math.floor(arr.length / 2);
@@ -20,10 +48,13 @@ function mergeSort(arr) {
 
   console.log(`LEFT: ${leftArray} -- RIGHT: ${rightArray}`);
 
-  mergeSort(leftArray);
-  mergeSort(rightArray);
-  merge(leftArray, rightArray);
+  const sortedLeft = mergeSort(leftArray);
+  const sortedRight = mergeSort(rightArray);
+  console.log(`SORTED LEFT: ${sortedLeft} -- SORTED RIGHT: ${sortedRight}`);
+
+  return merge(sortedLeft, sortedRight);
 }
 
-const testArray = [8, 6, 2, 7, 4, 5, 3, 1, 9, 10];
-mergeSort(testArray);
+const testArray = [7, 8, 2, 6, 4, 1, 5, 3];
+
+console.log(mergeSort(testArray));
